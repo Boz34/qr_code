@@ -27,7 +27,7 @@ class _MyAppState extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Plugin example app'),
+            title: const Text('QR Code Lager'),
           ),
           body: Center(
             child: Column(
