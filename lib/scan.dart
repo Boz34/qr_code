@@ -6,27 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:qr_code/main.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class ScanPage extends StatelessWidget {
-  const ScanPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Demo Home Page')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const QRScan(),
-            ));
-          },
-          child: const Text('qrView'),
-        ),
-      ),
-    );
-  }
-}
-
 class QRScan extends StatefulWidget {
   const QRScan({Key? key}) : super(key: key);
 
