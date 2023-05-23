@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   qr_bar_code_scanner_dialog: ^0.0.5
   qr_code_scanner: ^1.0.1
+  mysql1: ^0.20.0
+  sqflite: ^2.2.8+4
 
 dev_dependencies:
   flutter_test:

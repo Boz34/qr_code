@@ -36,28 +36,26 @@ class _MyAppState extends StatelessWidget {
                 children: [
                   TextButton(
                       style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white, backgroundColor: Colors.black,
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => QRScan()),
+                          MaterialPageRoute(builder: (context) => const QRScan()),
                         );
                       },
-                      child: Text('QRScan')),
+                      child: const Text('QRScan')),
                   TextButton(
                       style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white, backgroundColor: Colors.black,
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MenuPage()),
+                          MaterialPageRoute(builder: (context) => const MenuPage()),
                         );
                       },
-                      child: Text('Menu'))
+                      child: const Text('Menu'))
                 ]),
           )),
     );
