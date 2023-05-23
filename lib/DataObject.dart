@@ -1,5 +1,5 @@
-import 'package:mysql1/mysql1.dart';
 import 'dart:async';
+import 'package:sqflite/sqflite.dart';
 
 class DataObject {
   final int id;
@@ -18,11 +18,18 @@ class DataObject {
     required this.user_ausgang_id,
   });
 
+  Future<Database> get database async {
+    return openDatabase(
+      'jdbc:mysql://db.triopt.de:3306/',
+      version: 1,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'eingang_datum': eingang,
-      'ausgang_datum': ausgang,
+      'eingang_datum': eingang.toIso8601String(),
+      'ausgang_datum': ausgang.toIso8601String(),
       'adress': adress,
       'user_id': user_id,
       'user_id_ausgang': user_ausgang_id,
@@ -30,29 +37,11 @@ class DataObject {
   }
 
   Future<void> insertBook(Map<String, dynamic> bookMap) async {
-    final conn = await MySqlConnection.connect(
-      ConnectionSettings(
-        host: 'db.triopt.de',
-        port: 3306,
-        user: 'junaid',
-        password: 'y^ZJ3Dea',
-        db: 'lager',
-      ),
+    final db = await database;
+    await db.insert(
+      'signin', // Update the table name here
+      bookMap,
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
-
-    await conn.query(
-      'INSERT INTO signin (id, eingang_datum, ausgang_datum, adress, user_id, user_id_ausgang) '
-      'VALUES (?, ?, ?, ?, ?, ?)',
-      [
-        bookMap['id'],
-        bookMap['eingang'],
-        bookMap['ausgang'],
-        bookMap['adress'],
-        bookMap['user_id'],
-        bookMap['user_id_ausgang'],
-      ],
-    );
-
-    await conn.close();
   }
 }
