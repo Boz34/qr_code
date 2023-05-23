@@ -1,63 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
-import 'package:qr_code/menu.dart';
-import 'package:qr_code/scan.dart';
+import 'dataobject.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: _MyAppState(),
+      title: 'My App',
+      home: MyHomePage(),
     );
   }
 }
 
-class _MyAppState extends StatelessWidget {
-  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
-  String? code;
-
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('QR Code Lager'),
-          ),
-          body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Colors.black,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const QRScan()),
-                        );
-                      },
-                      child: const Text('QRScan')),
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Colors.black,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const MenuPage()),
-                        );
-                      },
-                      child: const Text('Menu'))
-                ]),
-          )),
+    final dataObject = DataObject(
+      id: 1,
+      eingang: DateTime.now(),
+      ausgang: DateTime.now(),
+      adress: 'Sample Address',
+      user_id: 123,
+      user_ausgang_id: 456,
+    );
+
+    _insertData() async {
+      await dataObject.insertBook(dataObject.toMap());
+      print('Data inserted into the database!');
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My App'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _insertData,
+          child: Text('Insert Data'),
+        ),
+      ),
     );
   }
 }

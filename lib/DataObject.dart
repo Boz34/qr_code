@@ -1,5 +1,5 @@
+import 'package:mysql1/mysql1.dart';
 import 'dart:async';
-import 'package:sqflite/sqflite.dart';
 
 class DataObject {
   final int id;
@@ -18,8 +18,6 @@ class DataObject {
     required this.user_ausgang_id,
   });
 
-  get database => null;
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -32,12 +30,29 @@ class DataObject {
   }
 
   Future<void> insertBook(Map<String, dynamic> bookMap) async {
-    final db =
-        await database; // assuming you have a `database` object defined somewhere
-    await db.insert(
-      'signin',
-      bookMap,
-      conflictAlgorithm: ConflictAlgorithm.replace,
+    final conn = await MySqlConnection.connect(
+      ConnectionSettings(
+        host: 'db.triopt.de',
+        port: 3306,
+        user: 'junaid',
+        password: 'y^ZJ3Dea',
+        db: 'lager',
+      ),
     );
+
+    await conn.query(
+      'INSERT INTO signin (id, eingang_datum, ausgang_datum, adress, user_id, user_id_ausgang) '
+      'VALUES (?, ?, ?, ?, ?, ?)',
+      [
+        bookMap['id'],
+        bookMap['eingang'],
+        bookMap['ausgang'],
+        bookMap['adress'],
+        bookMap['user_id'],
+        bookMap['user_id_ausgang'],
+      ],
+    );
+
+    await conn.close();
   }
 }
