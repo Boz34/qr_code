@@ -12,14 +12,3 @@ Future<MySqlConnection> openConnection() async {
   var conn = await MySqlConnection.connect(settings);
   return conn;
 }
-
-Future<List<ResultRow>> getUsers() async {
-  var conn = await openConnection();
-
-  var results =
-      await conn.query('SELECT * FROM signin'); // Update the table name here
-
-  await conn.close();
-
-  return results.toList();
-}
