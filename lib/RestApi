@@ -1,0 +1,39 @@
+  await RestApiClient.initFlutter();
+
+  IRestApiClient restApiClient = RestApiClient(
+    options: RestApiClientOptions(
+      //Defines your base API url eg. https://mybestrestapi.com
+      baseUrl: 'db.triopt.de',
+
+      //Enable caching of response data
+      cacheEnabled: true,
+    ),
+    authOptions: AuthOptions(
+      //Define refresh token endpoint for RestApiClient
+      //instance to use the first time response status code is 401
+      refreshTokenEndpoint: '/auth/token-refresh',
+
+      //Define the name of your api parameter name
+      //on RefreshToken endpoint eg. 'refreshToken' or 'value' ...
+      refreshTokenParameterName: 'token',
+
+      //This method is called on successfull call to refreshTokenEndpoint
+      //Provides a way to get a jwt from response, much like
+      //resolveValidationErrorsMap callback
+      resolveJwt: (response) => response.data['result']['accessToken']['token'],
+
+      //Much like resolveJwt, this method is used to resolve
+      //refresh token from response
+      resolveRefreshToken: (response) => response.data['result']['refreshToken']['token'],
+    ),
+    loggingOptions: LoggingOptions(
+      //Toggle logging of your requests and responses
+      //to the console while debugging
+      logNetworkTraffic: true,
+    ),
+  );
+
+  //init must be called, preferably right after the instantiation
+  await restApiClient.init();
+
+  //Use restApiClient from this point on
