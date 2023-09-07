@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
-import 'package:qr_code/menu.dart';
-import 'package:qr_code/scan.dart';
+import 'package:qr_code/ausgabe.dart';
+import 'package:qr_code/annahme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +37,9 @@ class _MyAppState extends StatelessWidget {
                   TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white, backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                        )
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -44,10 +47,13 @@ class _MyAppState extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const QRScan()),
                         );
                       },
-                      child: const Text('QRScan')),
+                      child: const Text('Annahme')),
                   TextButton(
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white, backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                        )
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -55,7 +61,7 @@ class _MyAppState extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const MenuPage()),
                         );
                       },
-                      child: const Text('Menu'))
+                      child: const Text('Ausgabe'))
                 ]),
           )),
     );
