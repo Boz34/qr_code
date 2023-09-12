@@ -47,7 +47,7 @@ class _MenuPageState extends State<MenuPage> {
           Container(
             // Add any other widgets or content you want below the QR scanner
             padding: const EdgeInsets.all(16.0),
-            child: Text(
+            child: const Text(
               'Your other content goes here.',
               style: TextStyle(fontSize: 18),
             ),
