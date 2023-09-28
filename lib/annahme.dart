@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:mysql1/mysql1.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code/main.dart';

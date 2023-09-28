@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_bar_code_scanner_dialog/qr_bar_code_scanner_dialog.dart';
 import 'package:qr_code/ausgabe.dart';
 import 'package:qr_code/annahme.dart';
 
@@ -18,8 +17,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _MyAppState extends StatelessWidget {
-  final _qrBarCodeScannerDialogPlugin = QrBarCodeScannerDialog();
   String? code;
 
   @override
