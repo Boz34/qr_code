@@ -1,10 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:mysql1/mysql1.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code/main.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'sql.dart' as sql;
 
 class QRScan extends StatefulWidget {
   const QRScan({Key? key}) : super(key: key);
@@ -28,6 +29,7 @@ class _QRScanState extends State<QRScan> {
     }
     controller!.resumeCamera();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +169,9 @@ class _QRScanState extends State<QRScan> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        if (result != null) {
+          sql.insertData();
+        }
       });
     });
   }

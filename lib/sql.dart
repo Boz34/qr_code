@@ -2,22 +2,32 @@ import 'package:mysql1/mysql1.dart';
 import 'dart:async';
 
 Future<MySqlConnection> openConnection() async {
-  var settings = ConnectionSettings(
-      host: 'db.triopt.de',
-      port: 3306,
-      user: 'junaid',
-      password: 'y^ZJ3Dea',
-      db: 'lager');
-  var conn = await MySqlConnection.connect(settings);
-  return conn;
+ var settings = ConnectionSettings(
+    host: 'db.triopt.de',
+    port: 3306,
+    user: 'junaid',
+    password: 'y^ZJ3Dea',
+    db: 'lager',
+ );
+
+ var conn = await MySqlConnection.connect(settings);
+ print("blablabla");
+ return conn;
 }
 
-Future<List<ResultRow>> getUsers() async {
-  var conn = await openConnection();
+Future<void> insertData() async {
+ final MySqlConnection conn = await openConnection();
 
-  var results = await conn.query('SELECT * FROM users');
+ try {
+    var result = await conn.query(
+      "INSERT INTO lager.lager (serialnummer, name) VALUES (?, ?)",
+      ['12346276', 'Example Book'],
+    );
 
-  await conn.close();
-
-  return results.toList();
+    print("Inserted ${result.affectedRows} row(s)");
+ } catch (e) {
+    print("Error: $e");
+ } finally {
+    conn.close();
+ }
 }
