@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code/main.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'sql.dart' as sql;
+import 'dart:async';
 
 class QRScan extends StatefulWidget {
   const QRScan({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _QRScanState extends State<QRScan> {
     controller!.resumeCamera();
   }
 
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
