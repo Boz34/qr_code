@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:qr_code/main.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'sql.dart' as sql;
-import 'dart:async';
 
 class QRScan extends StatefulWidget {
   const QRScan({Key? key}) : super(key: key);
@@ -29,7 +28,6 @@ class _QRScanState extends State<QRScan> {
     }
     controller!.resumeCamera();
   }
-
   
   @override
   Widget build(BuildContext context) {
@@ -163,18 +161,33 @@ class _QRScanState extends State<QRScan> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+  setState(() {
+    this.controller = controller;
+  });
+
+  // Create a set to store scanned barcodes
+  Set<String> scannedBarcodes = Set<String>();
+
+  controller.scannedDataStream.listen((scanData) {
     setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        if (result != null) {
+      result = scanData;
+
+      if (result != null) {
+        String? barcodeData = result!.code;
+
+        // Check if the scanned barcode is not in the set
+        if (!scannedBarcodes.contains(barcodeData)) {
+          // Add the scanned barcode to the set
+          scannedBarcodes.add(barcodeData!);
+
+          // Process the scanned barcode (e.g., call sql.insertData())
           sql.insertData();
         }
-      });
+      }
     });
-  }
+  });
+}
+
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
