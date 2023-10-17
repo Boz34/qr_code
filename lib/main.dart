@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/ausgabe.dart';
 import 'package:qr_code/annahme.dart';
+import 'package:qr_code/data_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,7 +61,24 @@ class _MyAppState extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const MenuPage()),
                         );
                       },
-                      child: const Text('Ausgabe'))
+                      child: const Text('Ausgabe')),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ScannedDataScreen()), 
+                          );
+                        },
+                        child: const Text('Artikal'),
+                      )
+
                 ]),
           )),
     );

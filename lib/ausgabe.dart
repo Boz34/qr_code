@@ -1,14 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+// Import your database-related code here, such as database operations
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MenuPageState createState() => _MenuPageState();
 }
 
 class _MenuPageState extends State<MenuPage> {
+  // Define a QR code scanner controller
   final GlobalKey qrKey = GlobalKey();
   QRViewController? _qrController;
 
@@ -22,7 +27,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ausgabe'),
+        title: const Text('QR Scanner'),
         backgroundColor: Colors.orangeAccent,
       ),
       body: Column(
@@ -33,7 +38,7 @@ class _MenuPageState extends State<MenuPage> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
-                  color: Colors.transparent, // Transparent background
+                  color: Colors.transparent,
                   border: Border.all(
                     color: Colors.orangeAccent,
                     width: 2.0,
@@ -45,7 +50,6 @@ class _MenuPageState extends State<MenuPage> {
             ),
           ),
           Container(
-            // Add any other widgets or content you want below the QR scanner
             padding: const EdgeInsets.all(16.0),
             child: const Text(
               'Your other content goes here.',
@@ -61,8 +65,7 @@ class _MenuPageState extends State<MenuPage> {
           children: [
             IconButton(
               onPressed: () {
-                // Implement your Home action here
-                Navigator.pop(context); // This will navigate back to the main page (MenuPage)
+                Navigator.pop(context);
               },
               icon: const Icon(Icons.home),
             ),
@@ -83,9 +86,39 @@ class _MenuPageState extends State<MenuPage> {
 
   void _onQRViewCreated(QRViewController controller) {
     _qrController = controller;
-    controller.scannedDataStream.listen((scanData) {
-      // Implement your QR code scanning logic here
-      print('Scanned QR Code: ${scanData.code}');
+    controller.scannedDataStream.listen((scanData) async {
+      String? barcodeData = scanData.code;
+
+      // Check if the data exists in the database
+      bool dataExists = await checkDataExistsInDatabase(barcodeData!);
+
+      if (dataExists) {
+        // Data exists, so delete it from the database
+        await deleteDataFromDatabase(barcodeData);
+      }
+
+      // Implement your QR code scanning logic here (e.g., display a message)
+      if (kDebugMode) {
+        print('Scanned QR Code: $barcodeData');
+      }
     });
   }
+
+  // Replace these hypothetical functions with your actual database operations
+  Future<bool> checkDataExistsInDatabase(String data) async {
+    // Perform a database query to check if data exists
+    // Return true if it exists, false if it doesn't
+    return false; // Replace with your logic
+  }
+
+  Future<void> deleteDataFromDatabase(String data) async {
+    // Perform a database operation to delete data
+    // Implement your logic to delete the data from the database
+  }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: MenuPage(),
+  ));
 }

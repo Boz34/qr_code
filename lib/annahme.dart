@@ -17,6 +17,14 @@ class _QRScanState extends State<QRScan> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  
+  String? get newData1 => null;
+  
+  String? get newData2 => null;
+  
+  String? get newData3 => null;
+  
+  String? get newData4 => null;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -166,7 +174,7 @@ class _QRScanState extends State<QRScan> {
   });
 
   // Create a set to store scanned barcodes
-  Set<String> scannedBarcodes = Set<String>();
+  Set<String> scannedBarcodes = <String>{};
 
   controller.scannedDataStream.listen((scanData) {
     setState(() {
@@ -179,15 +187,72 @@ class _QRScanState extends State<QRScan> {
         if (!scannedBarcodes.contains(barcodeData)) {
           // Add the scanned barcode to the set
           scannedBarcodes.add(barcodeData!);
+          
+          // Display a data input dialog
+          _showDataInputDialog(barcodeData);
 
           // Process the scanned barcode (e.g., call sql.insertData())
-          sql.insertData();
+          sql.insertData(barcodeData, newData1!, newData2!, newData3!, newData4!);
+
         }
       }
     });
   });
 }
 
+// Function to display the data input dialog
+void _showDataInputDialog(String barcodeData) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      String newData1 = ""; // Create a variable to hold the user's input
+      String newData2 = "";
+      String newData3 = "";
+      String newData4 = "";
+
+      return AlertDialog(
+        title: Text('Input Data for Barcode: $barcodeData'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            TextField(
+          onChanged: (value) {
+          },
+          decoration: const InputDecoration(hintText: 'Serialnummer'),
+          ),
+          TextField(
+            onChanged: (value){
+            },
+          decoration: const InputDecoration(hintText: 'Datum'),
+          ),
+             TextField(
+              onChanged: (value) {
+              },
+          decoration: const InputDecoration(hintText: 'Standort'),
+          ),
+          TextField(
+              onChanged: (value) {
+              },
+          decoration: const InputDecoration(hintText: 'Anhang'),
+          ),
+        ],
+       ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Save'),
+            onPressed: () {
+              // Process the scanned barcode data and user's input
+              sql.insertData(barcodeData, newData1, newData2, newData3, newData4);
+
+              // Close the dialog
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
@@ -203,4 +268,9 @@ class _QRScanState extends State<QRScan> {
     controller?.dispose();
     super.dispose();
   }
+}
+
+// ignore: unused_element, camel_case_types
+class _showDataInputDialog {
+  _showDataInputDialog(String barcodeData);
 }
