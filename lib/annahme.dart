@@ -23,8 +23,6 @@ class _QRScanState extends State<QRScan> {
   String? get newData2 => null;
   
   String? get newData3 => null;
-  
-  String? get newData4 => null;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -192,7 +190,7 @@ class _QRScanState extends State<QRScan> {
           _showDataInputDialog(barcodeData);
 
           // Process the scanned barcode (e.g., call sql.insertData())
-          sql.insertData(barcodeData, newData1!, newData2!, newData3!, newData4!);
+          sql.insertData(newData1!, newData2!, newData3!);
 
         }
       }
@@ -208,7 +206,6 @@ void _showDataInputDialog(String barcodeData) {
       String newData1 = ""; // Create a variable to hold the user's input
       String newData2 = "";
       String newData3 = "";
-      String newData4 = "";
 
       return AlertDialog(
         title: Text('Input Data for Barcode: $barcodeData'),
@@ -225,15 +222,10 @@ void _showDataInputDialog(String barcodeData) {
             },
           decoration: const InputDecoration(hintText: 'Datum'),
           ),
-             TextField(
-              onChanged: (value) {
-              },
-          decoration: const InputDecoration(hintText: 'Standort'),
-          ),
           TextField(
               onChanged: (value) {
               },
-          decoration: const InputDecoration(hintText: 'Anhang'),
+          decoration: const InputDecoration(hintText: 'Stndort'),
           ),
         ],
        ),
@@ -242,7 +234,7 @@ void _showDataInputDialog(String barcodeData) {
             child: const Text('Save'),
             onPressed: () {
               // Process the scanned barcode data and user's input
-              sql.insertData(barcodeData, newData1, newData2, newData3, newData4);
+              sql.insertData(newData1, newData2, newData3);
 
               // Close the dialog
               Navigator.of(context).pop();

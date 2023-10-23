@@ -15,18 +15,14 @@ Future<MySqlConnection> openConnection() async {
   return conn;
 }
 
-Future<void> insertData(String barcode, String data1, String data2,
-    String data3, String data4) async {
+Future<void> insertData(String data1, String data2,
+    String data3) async {
   final MySqlConnection conn = await openConnection();
-
-  if (kDebugMode) {
-    print('blablabla');
-  }
 
   try {
     final results = await conn.query(
-      "INSERT INTO lager.lager (`s/n`, datum, standort, anhang) VALUES (?, ?, ?, ?, ?)",
-      [barcode, data1, data2, data3, data4],
+      "INSERT INTO lager.lager (serialnummer, datum, standort) VALUES (?, ?, ?)",
+      [data1, data2, data3],
     );
 
     if (results.affectedRows! > 0) {
